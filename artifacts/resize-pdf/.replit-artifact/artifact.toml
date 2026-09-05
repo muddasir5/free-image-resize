@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ResizePDF"
+description = "A free, private browser-based image utility for resizing, compressing, converting images, and creating PDFs without uploads or sign-up."
+version = "1.0.0"
+id = "artifacts/resize-pdf"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23248
+
+[services.development]
+run = "pnpm --filter @workspace/resize-pdf run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/resize-pdf", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/resize-pdf/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23248"
+BASE_PATH = "/"
